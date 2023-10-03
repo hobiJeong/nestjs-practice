@@ -18,6 +18,9 @@ export class UsersService {
     private readonly dataSource: DataSource,
   ) {}
 
+  /**
+   * 유저 생성
+   */
   async create(createUserDto: CreateUserDto) {
     const { email } = createUserDto;
     const isExistUser = await this.checkUserExists(email);
