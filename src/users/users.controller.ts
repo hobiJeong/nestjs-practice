@@ -7,7 +7,6 @@ import {
   Param,
   Delete,
   Req,
-  Res,
   Redirect,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
