@@ -27,6 +27,7 @@ export class UsersController {
   @Redirect('https://docs.nestjs.com', 302)
   async findAll() {
     return { url: 'https//docs.nestjs.com/controllers' };
+
     // return this.usersService.findOne(1);
   }
 
