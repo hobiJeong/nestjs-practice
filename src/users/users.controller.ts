@@ -7,12 +7,14 @@ import {
   Param,
   Delete,
   Redirect,
+  Req,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { Request } from 'express';
 
-@Controller('users')
+@Controller({ host: 'localhost' })
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -21,10 +23,10 @@ export class UsersController {
     return this.usersService.create(createUserDto);
   }
 
-  @Get()
-  @Redirect('https://docs.nestjs.com', 302)
-  async findAll() {
-    return { url: 'https//docs.nestjs.com/controllers' };
+  @Get('users')
+  async findAll(@Req() req: Request) {
+    console.log(req.hostname);
+    return 'abc';
   }
 
   @Get(':id')
