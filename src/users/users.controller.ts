@@ -8,10 +8,12 @@ import {
   Delete,
   Redirect,
   Header,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Controller('users')
 export class UsersController {
@@ -19,14 +21,13 @@ export class UsersController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    const { name, email } = createUserDto;
-
-    return `유저를 생성했습니다. 이름: ${name}, 이메일: ${email}`;
+    console.log(createUserDto);
+    return createUserDto;
   }
 
   @Header('NestJS-Book-Study', 'study')
   @Get('users')
-  async findAll() {
+  async findAll(@Query() paginationQueryDto: PaginationQueryDto) {
     return this.usersService.findAll();
   }
 
