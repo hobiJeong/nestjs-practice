@@ -13,13 +13,15 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
-@Controller({ host: 'localhost' })
+@Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+    const { name, email } = createUserDto;
+
+    return `유저를 생성했습니다. 이름: ${name}, 이메일: ${email}`;
   }
 
   @Header('NestJS-Book-Study', 'study')
