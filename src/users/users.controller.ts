@@ -7,43 +7,28 @@ import {
   Param,
   Delete,
   Redirect,
-  Req,
+  Header,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Request } from 'express';
-import { reportableClassDecorator } from './decorators/test.decorator';
 
-@reportableClassDecorator
 @Controller({ host: 'localhost' })
 export class UsersController {
-  type = 'report';
-  title: string;
-  constructor(
-    private readonly usersService: UsersService,
-    // t: string,
-    // private readonly t: string,
-  ) {
-    // this.t = t;
-  }
+  constructor(private readonly usersService: UsersService) {}
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
+  @Header('NestJS-Book-Study', 'study')
   @Get('users')
-  async findAll(@Req() req: Request) {
-    console.log(req.hostname);
-    const Controller = new UsersController(this.usersService);
-    Controller.title = 'abc';
-    console.log(Controller);
-    return 'abc';
+  async findAll() {
+    return this.usersService.findAll();
   }
 
   @Get(':id')
-  @Redirect('https://docs.nestjs.com', 302)
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
