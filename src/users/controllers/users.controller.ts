@@ -28,17 +28,13 @@ export class UsersController {
   }
 
   @Post('email-verify')
-  verifyEmail(@Query() verifyEmailDto: VerifyEmailDto): Promise<string> {
-    console.log(verifyEmailDto);
-
-    return;
+  verifyEmail(@Query() verifyEmailDto: VerifyEmailDto): void {
+    return this.usersService.verifyEmail(verifyEmailDto);
   }
 
   @Post('login')
-  login(@Body() userLoginDto: UserLoginDto): Promise<string> {
-    console.log(userLoginDto);
-
-    return;
+  login(@Body() userLoginDto: UserLoginDto): void {
+    return this.usersService.login(userLoginDto);
   }
 
   @Header('NestJS-Book-Study', 'study')
