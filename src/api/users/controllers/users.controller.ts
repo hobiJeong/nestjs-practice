@@ -10,7 +10,6 @@ import {
   Header,
   Query,
   DefaultValuePipe,
-  ValidationPipe,
   ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
@@ -20,6 +19,7 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { UserLoginDto } from '../dto/user-login-dto';
 import { VerifyEmailDto } from '../dto/verify-email-dto';
 import { UserInfo } from '../interface/user-info.interface';
+import { ValidationPipe } from 'src/common/validation-pipe/validation.pipe';
 
 @Controller('users')
 export class UsersController {
@@ -51,7 +51,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') userId: string): Promise<UserInfo> {
+  findOne(@Param('id', ValidationPipe) userId: number): Promise<UserInfo> {
     return this.usersService.getUserInfo(userId);
   }
 
