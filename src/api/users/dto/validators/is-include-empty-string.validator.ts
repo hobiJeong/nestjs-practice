@@ -19,7 +19,8 @@ export function IsIncludeEmptyString(
       validator: {
         validate(value: string, args: ValidationArguments) {
           console.log(value);
-          return !/\s/.test(value);
+          return !value.includes(' ');
+          // return !/\s/.test(value);
         },
         defaultMessage(args: ValidationArguments) {
           return 'The $property property must not contain any whitespace.';
