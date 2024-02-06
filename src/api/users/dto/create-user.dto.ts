@@ -1,11 +1,14 @@
-import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsEmail, Length, Matches, MaxLength } from 'class-validator';
+import { USER_REGEXP } from '../constants/user.regexp';
 
 export class CreateUserDto {
-  @IsString()
-  @MinLength(1)
-  @MaxLength(10)
+  @Length(2, 30)
   name: string;
 
   @IsEmail()
+  @MaxLength(60)
   email: string;
+
+  @Matches(USER_REGEXP)
+  password: string;
 }
