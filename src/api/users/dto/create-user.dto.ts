@@ -3,6 +3,7 @@ import { USER_REGEXP } from '../constants/user.regexp';
 import { Transform, TransformFnParams } from 'class-transformer';
 import { IsIncludeEmptyString } from './validators/is-include-empty-string.validator';
 import { BadRequestException } from '@nestjs/common';
+import { NotIn } from './validators/not-in.validator';
 
 export class CreateUserDto {
   /**
@@ -10,12 +11,15 @@ export class CreateUserDto {
    */
   @Transform((params: TransformFnParams) => {
     const { obj, value } = params;
-    if (obj.password.includes(value.replaceAll(' ', ''))) {
-      throw new BadRequestException(
-        'password must not contain the same string as name.',
-      );
-    }
+    // if (obj.password.includes(value.replaceAll(' ', ''))) {
+    //   throw new BadRequestException(
+    //     'password must not contain the same string as name.',
+    //   );
+    // }
     return value.replaceAll(' ', '');
+  })
+  @NotIn('password', {
+    message: 'password must not contain the same string as $property.',
   })
   @IsIncludeEmptyString()
   @Length(2, 30)
