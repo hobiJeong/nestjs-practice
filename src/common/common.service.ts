@@ -1,4 +1,8 @@
 import { Injectable } from '@nestjs/common';
 
 @Injectable()
-export class CommonService {}
+export class CommonService {
+  getCommonHello() {
+    return 'common hello';
+  }
+}
