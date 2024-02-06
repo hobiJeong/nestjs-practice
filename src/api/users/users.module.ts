@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { UsersService } from './services/users.service';
 import { UsersController } from './controllers/users.controller';
-import { EmailModule } from 'src/email/email.module';
+import { EmailModule } from 'src/api/email/email.module';
 
 @Module({
   imports: [EmailModule],
