@@ -11,6 +11,7 @@ import {
   Query,
   DefaultValuePipe,
   ParseIntPipe,
+  UsePipes,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -26,7 +27,9 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(@Body() createUserDto: CreateUserDto): Promise<void> {
+  async create(
+    @Body(ValidationPipe) createUserDto: CreateUserDto,
+  ): Promise<void> {
     this.usersService.create(createUserDto);
   }
 

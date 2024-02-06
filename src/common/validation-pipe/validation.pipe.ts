@@ -10,6 +10,7 @@ import { validate } from 'class-validator';
 @Injectable()
 export class ValidationPipe implements PipeTransform {
   async transform(value: any, { metatype }: ArgumentMetadata) {
+    console.log(value, metatype);
     /**
      * metatype이 pipe가 지원하는 타입인지 검사
      */
@@ -23,7 +24,12 @@ export class ValidationPipe implements PipeTransform {
      * 따라서 타입을 지정하는 변환 과정을 plainToClass로 수행.
      */
     const object = plainToClass(metatype, value);
+
+    console.log(object);
+
     const errors = await validate(object);
+
+    console.log(errors);
 
     /**
      * 에러가 있다면 에러 던짐.

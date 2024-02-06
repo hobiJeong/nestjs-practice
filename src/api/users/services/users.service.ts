@@ -12,12 +12,12 @@ export class UsersService {
   constructor(private readonly emailService: EmailService) {}
 
   async create(createUserDto: CreateUserDto) {
-    const { email, name, password } = createUserDto;
+    const { email, name } = createUserDto;
     await this.checkUserExists(email);
 
     const signupVerifyToken = uuid.v1();
 
-    await this.saveUser(email, name, password, signupVerifyToken);
+    await this.saveUser(email, name, signupVerifyToken);
     await this.sendMemberJoinEmail(email, signupVerifyToken);
 
     return;
@@ -69,12 +69,7 @@ export class UsersService {
   /**
    * @todo DB 연동 후 구현
    */
-  private saveUser(
-    email: string,
-    name: string,
-    password: string,
-    signupVerifyToken: string,
-  ) {
+  private saveUser(email: string, name: string, signupVerifyToken: string) {
     return;
   }
 
