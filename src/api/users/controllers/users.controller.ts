@@ -9,6 +9,9 @@ import {
   Redirect,
   Header,
   Query,
+  DefaultValuePipe,
+  ValidationPipe,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -38,8 +41,12 @@ export class UsersController {
   }
 
   @Header('NestJS-Book-Study', 'study')
-  @Get('users')
-  async findAll(@Query() paginationQueryDto: PaginationQueryDto) {
+  @Get()
+  async findAll(
+    @Query('offset', new DefaultValuePipe(0), ParseIntPipe) offset: number,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
+  ) {
+    console.log(offset, limit);
     return this.usersService.findAll();
   }
 
