@@ -5,6 +5,7 @@ import * as uuid from 'uuid';
 import { EmailService } from 'src/email/email.service';
 import { VerifyEmailDto } from '../dto/verify-email-dto';
 import { UserLoginDto } from '../dto/user-login-dto';
+import { UserInfo } from '../interface/user-info.interface';
 
 @Injectable()
 export class UsersService {
@@ -20,6 +21,16 @@ export class UsersService {
     await this.sendMemberJoinEmail(email, signupVerifyToken);
 
     return;
+  }
+
+  getUserInfo(userId: string): Promise<UserInfo> {
+    /**
+     * @todo
+     * 1. userId를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
+     * 2. 조회된 데이터를 UserInfo 타입으로 응답
+     */
+
+    throw new Error('Method not implemented');
   }
 
   verifyEmail(verifyEmailDto: VerifyEmailDto) {
@@ -38,7 +49,7 @@ export class UsersService {
     const { email, password } = userLoginDto;
     /**
      * @todo
-     * 
+     *
      * 1. userId를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
      * 2. 조회된 데이터를 UserInfo 타입으로 응답
      */

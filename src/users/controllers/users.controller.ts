@@ -45,8 +45,7 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id') userId: string): Promise<UserInfo> {
-    console.log(userId);
-    return;
+    return this.usersService.getUserInfo(userId);
   }
 
   @Patch(':id')
