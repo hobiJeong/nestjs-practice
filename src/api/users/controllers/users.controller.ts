@@ -6,12 +6,10 @@ import {
   Patch,
   Param,
   Delete,
-  Redirect,
   Header,
   Query,
   DefaultValuePipe,
   ParseIntPipe,
-  UsePipes,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -27,6 +25,7 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<void> {
+    console.log(createUserDto);
     this.usersService.create(createUserDto);
   }
 
@@ -51,7 +50,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ValidationPipe) userId: number): Promise<UserInfo> {
+  findOne(@Param('id') userId: number): Promise<UserInfo> {
     return this.usersService.getUserInfo(userId);
   }
 
