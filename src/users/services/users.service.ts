@@ -36,6 +36,8 @@ export class UsersService {
   verifyEmail(verifyEmailDto: VerifyEmailDto) {
     const { signupVerifyToken } = verifyEmailDto;
 
+    return process.env.DB_HOST;
+
     /**
      * @todo
      * 1. DB에서 signupVerifyToken으로 회원 가입 처리중인 유저가 잇는지 조회하고 없다면 에러 처리

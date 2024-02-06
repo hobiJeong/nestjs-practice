@@ -28,7 +28,7 @@ export class UsersController {
   }
 
   @Post('email-verify')
-  verifyEmail(@Query() verifyEmailDto: VerifyEmailDto): void {
+  verifyEmail(@Query() verifyEmailDto: VerifyEmailDto): string {
     return this.usersService.verifyEmail(verifyEmailDto);
   }
 
