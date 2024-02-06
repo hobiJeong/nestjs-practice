@@ -20,16 +20,13 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { UserLoginDto } from '../dto/user-login-dto';
 import { VerifyEmailDto } from '../dto/verify-email-dto';
 import { UserInfo } from '../interface/user-info.interface';
-import { ValidationPipe } from 'src/common/validation-pipe/validation.pipe';
 
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  async create(
-    @Body(ValidationPipe) createUserDto: CreateUserDto,
-  ): Promise<void> {
+  async create(@Body() createUserDto: CreateUserDto): Promise<void> {
     this.usersService.create(createUserDto);
   }
 
