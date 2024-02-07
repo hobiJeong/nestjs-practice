@@ -6,6 +6,8 @@ import emailConfig from 'src/config/email.config';
 import * as Joi from 'joi';
 import typeOrmConfig from 'src/config/type-orm.config';
 import serverConfig from 'src/config/server.config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { TypeOrmModuleOptionsFactory } from './type-orm/type-orm-module-options.factory';
 
 @Module({
   imports: [
@@ -30,8 +32,11 @@ import serverConfig from 'src/config/server.config';
         DB_PORT: Joi.number().required(),
       }),
     }),
+    TypeOrmModule.forRootAsync({
+      useClass: TypeOrmModuleOptionsFactory,
+    }),
   ],
-  providers: [CoreService],
+  providers: [CoreService, TypeOrmModuleOptionsFactory],
   exports: [CommonModule],
 })
 export class CoreModule {}

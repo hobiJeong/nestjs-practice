@@ -16,6 +16,8 @@ export class TypeOrmModuleOptionsFactory implements TypeOrmOptionsFactory {
       password: this.config.password,
       database: this.config.name,
       port: this.config.port,
+      entities: ['dist/**/entities/*.{.ts,.js}'],
+      logging: true,
     };
   }
 }
