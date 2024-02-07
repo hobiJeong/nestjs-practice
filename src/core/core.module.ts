@@ -5,14 +5,14 @@ import { ConfigModule } from '@nestjs/config';
 import emailConfig from 'src/config/email.config';
 import * as Joi from 'joi';
 import typeOrmConfig from 'src/config/type-orm.config';
-import nodeEnvConfig from 'src/config/node-env.config';
+import serverConfig from 'src/config/server.config';
 
 @Module({
   imports: [
     CommonModule,
     ConfigModule.forRoot({
       envFilePath: [`.${process.env.NODE_ENV}.env`],
-      load: [emailConfig, typeOrmConfig, nodeEnvConfig],
+      load: [emailConfig, typeOrmConfig, serverConfig],
       isGlobal: true,
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
