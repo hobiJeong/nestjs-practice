@@ -1,5 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
+@Index('UQ_e12875dfb3b1d92d7d7c5377e22', ['email'], { unique: true })
 @Entity('user', { schema: 'nestjs_practice_db' })
 export class User {
   @PrimaryGeneratedColumn({
@@ -13,7 +14,12 @@ export class User {
   @Column('varchar', { name: 'name', comment: '유저 이름', length: 30 })
   name: string;
 
-  @Column('varchar', { name: 'email', comment: '유저 이메일', length: 60 })
+  @Column('varchar', {
+    name: 'email',
+    unique: true,
+    comment: '유저 이메일',
+    length: 60,
+  })
   email: string;
 
   @Column('varchar', { name: 'password', comment: '유저 패스워드', length: 30 })

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import * as uuid from 'uuid';
@@ -6,18 +6,29 @@ import { EmailService } from 'src/api/email/services/email.service';
 import { VerifyEmailDto } from '../dto/verify-email-dto';
 import { UserLoginDto } from '../dto/user-login-dto';
 import { UserInfo } from '../interface/user-info.interface';
+import { UserRepository } from '../repository/user.repository';
+import { DataSource } from 'typeorm';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly emailService: EmailService) {}
+  constructor(
+    private readonly emailService: EmailService,
+    private readonly userRepository: UserRepository,
+    private readonly dataSource: DataSource,
+  ) {}
 
   async create(createUserDto: CreateUserDto) {
-    const { email, name } = createUserDto;
-    await this.checkUserExists(email);
+    const { email } = createUserDto;
+    const isExistUser = await this.checkUserExists(email);
+
+    if (isExistUser) {
+      throw new ConflictException('An email that already exists.');
+    }
 
     const signupVerifyToken = uuid.v1();
 
-    await this.saveUser(email, name, signupVerifyToken);
+    await this.saveUser({ ...createUserDto }, signupVerifyToken);
+
     await this.sendMemberJoinEmail(email, signupVerifyToken);
 
     return;
@@ -59,18 +70,18 @@ export class UsersService {
     throw new Error('Method not implemented');
   }
 
-  /**
-   * @todo DB 연동 후 구현
-   */
   private checkUserExists(email: string) {
-    return false;
+    return this.userRepository.exists({ where: { email } });
   }
 
   /**
    * @todo DB 연동 후 구현
    */
-  private saveUser(email: string, name: string, signupVerifyToken: string) {
-    return;
+  private async saveUser(
+    createUserDto: CreateUserDto,
+    signupVerifyToken: string,
+  ) {
+    return this.userRepository.save({ ...createUserDto, signupVerifyToken });
   }
 
   private async sendMemberJoinEmail(email: string, signupVerifyToken: string) {

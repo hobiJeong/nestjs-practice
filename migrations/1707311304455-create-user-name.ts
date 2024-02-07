@@ -25,6 +25,7 @@ export class CreateUserName1707311304455 implements MigrationInterface {
             type: 'varchar',
             length: '60',
             isNullable: false,
+            isUnique: true,
             comment: '유저 이메일',
           },
           {
