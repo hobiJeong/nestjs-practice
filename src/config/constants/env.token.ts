@@ -1,0 +1,3 @@
+export const EMAIL_ENV_TOKEN = 'EMAIL_ENV_TOKEN';
+export const DATABASE_ENV_TOKEN = 'DATABASE_ENV_TOKEN';
+export const NODE_ENV_TOKEN = 'NODE_ENV_TOKEN';
