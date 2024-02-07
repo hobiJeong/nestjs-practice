@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
 import { ApiModule } from './api/api.module';
 import { LoggerMiddleware } from './middlewares/logger.middleware';
+import { UsersController } from './api/users/controllers/users.controller';
 
 @Module({
   imports: [CoreModule, ApiModule],
@@ -12,6 +13,6 @@ import { LoggerMiddleware } from './middlewares/logger.middleware';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(LoggerMiddleware).forRoutes('/users');
+    consumer.apply(LoggerMiddleware).forRoutes(UsersController);
   }
 }

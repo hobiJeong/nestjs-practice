@@ -3,10 +3,10 @@ import { UsersService } from './services/users.service';
 import { UsersController } from './controllers/users.controller';
 import { EmailModule } from 'src/api/email/email.module';
 import { TypeOrmExModule } from 'src/core/type-orm/type-orm-ex.module';
-import { User } from 'src/entities/User';
+import { UserRepository } from './repository/user.repository';
 
 @Module({
-  imports: [EmailModule, TypeOrmExModule.forCustomRepository([User])],
+  imports: [EmailModule, TypeOrmExModule.forCustomRepository([UserRepository])],
   controllers: [UsersController],
   providers: [UsersService],
 })

@@ -1,8 +1,9 @@
-import { Inject } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { TypeOrmModuleOptions, TypeOrmOptionsFactory } from '@nestjs/typeorm';
 import typeOrmConfig from 'src/core/config/type-orm.config';
 
+@Injectable()
 export class TypeOrmModuleOptionsFactory implements TypeOrmOptionsFactory {
   constructor(
     @Inject(typeOrmConfig.KEY)
@@ -16,7 +17,7 @@ export class TypeOrmModuleOptionsFactory implements TypeOrmOptionsFactory {
       password: this.config.password,
       database: this.config.name,
       port: this.config.port,
-      entities: ['dist/**/entities/*.{.ts,.js}'],
+      entities: ['dist/**/entities/*{.ts,.js}'],
       logging: true,
     };
   }

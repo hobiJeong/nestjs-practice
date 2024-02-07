@@ -17,8 +17,6 @@ export function NotIn(property: string, validationOptions: ValidationOptions) {
           const [relatedPropertyName] = args.constraints;
 
           const relatedValue = (args.object as any)[relatedPropertyName];
-          console.log(args);
-          console.log(relatedPropertyName);
 
           return (
             typeof value === 'string' &&

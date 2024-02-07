@@ -18,7 +18,6 @@ export function IsIncludeEmptyString(
       options: validationOptions,
       validator: {
         validate(value: string, args: ValidationArguments) {
-          console.log(value);
           return !value.includes(' ');
           // return !/\s/.test(value);
         },
