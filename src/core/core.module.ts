@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { CoreService } from './core.service';
 import { CommonModule } from 'src/common/common.module';
 import { ConfigModule } from '@nestjs/config';
-import emailConfig from 'src/config/email.config';
+import emailConfig from 'src/core/config/email.config';
 import * as Joi from 'joi';
-import typeOrmConfig from 'src/config/type-orm.config';
-import serverConfig from 'src/config/server.config';
+import typeOrmConfig from 'src/core/config/type-orm.config';
+import serverConfig from 'src/core/config/server.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmModuleOptionsFactory } from './type-orm/type-orm-module-options.factory';
 

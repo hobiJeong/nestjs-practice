@@ -1,8 +1,8 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigService, ConfigType } from '@nestjs/config';
-import serverConfig from './config/server.config';
-import emailConfig from './config/email.config';
-import typeOrmConfig from './config/type-orm.config';
+import serverConfig from './core/config/server.config';
+import emailConfig from './core/config/email.config';
+import typeOrmConfig from './core/config/type-orm.config';
 
 type CombineConfig = typeof serverConfig &
   typeof emailConfig &
