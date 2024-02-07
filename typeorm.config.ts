@@ -1,7 +1,8 @@
 import { config } from 'dotenv';
 import { DataSource } from 'typeorm';
 
-config({ path: `.${process.env.NODE_ENV}.env.ts}` });
+config({ path: `.production.env` });
+config({ path: `.developments.env`, override: true });
 
 export default new DataSource({
   type: 'mysql',
