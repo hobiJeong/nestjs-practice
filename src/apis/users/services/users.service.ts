@@ -7,7 +7,7 @@ import { VerifyEmailDto } from '../dto/verify-email-dto';
 import { UserLoginDto } from '../dto/user-login-dto';
 import { UserInfo } from '../interface/user-info.interface';
 import { UserRepository } from '../repository/user.repository';
-import { DataSource } from 'typeorm';
+import { DataSource, FindOneOptions } from 'typeorm';
 import { UserDto } from '../dto/user.dto';
 
 @Injectable()
@@ -46,6 +46,10 @@ export class UsersService {
     return existUser ? new UserDto(existUser) : null;
   }
 
+  findOneBy(options: FindOneOptions) {
+    this.userRepository.findOne(options);
+  }
+
   verifyEmail(verifyEmailDto: VerifyEmailDto) {
     const { signupVerifyToken } = verifyEmailDto;
 
@@ -55,18 +59,6 @@ export class UsersService {
      * @todo
      * 1. DB에서 signupVerifyToken으로 회원 가입 처리중인 유저가 잇는지 조회하고 없다면 에러 처리
      * 2. 바로 로그인 상태가 되도록 JWT를 발급
-     */
-
-    throw new Error('Method not implemented');
-  }
-
-  login(userLoginDto: UserLoginDto) {
-    const { email, password } = userLoginDto;
-    /**
-     * @todo
-     *
-     * 1. userId를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
-     * 2. 조회된 데이터를 UserInfo 타입으로 응답
      */
 
     throw new Error('Method not implemented');
