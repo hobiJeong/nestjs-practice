@@ -18,6 +18,10 @@ import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 import { UserLoginDto } from '../dto/user-login-dto';
 import { VerifyEmailDto } from '../dto/verify-email-dto';
 import { UserInfo } from '../interface/user-info.interface';
+import { config } from 'dotenv';
+import { UserDto } from '../dto/user.dto';
+
+config();
 
 @Controller('users')
 export class UsersController {
@@ -49,7 +53,7 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id') userId: number): Promise<UserInfo> {
+  findOne(@Param('id', ParseIntPipe) userId: number): Promise<UserDto> {
     return this.usersService.getUserInfo(userId);
   }
 

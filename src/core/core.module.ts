@@ -8,13 +8,14 @@ import typeOrmConfig from 'src/core/config/type-orm.config';
 import serverConfig from 'src/core/config/server.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmModuleOptionsFactory } from './type-orm/type-orm-module-options.factory';
+import authConfig from './config/auth.config';
 
 @Module({
   imports: [
     CommonModule,
     ConfigModule.forRoot({
       envFilePath: [`.${process.env.NODE_ENV}.env`],
-      load: [emailConfig, typeOrmConfig, serverConfig],
+      load: [emailConfig, typeOrmConfig, serverConfig, authConfig],
       isGlobal: true,
       validationSchema: Joi.object({
         PORT: Joi.number().required(),
@@ -30,6 +31,8 @@ import { TypeOrmModuleOptionsFactory } from './type-orm/type-orm-module-options.
         DB_PASSWORD: Joi.string().required(),
         DB_NAME: Joi.string().required(),
         DB_PORT: Joi.number().required(),
+
+        JWT_SECRET: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRootAsync({

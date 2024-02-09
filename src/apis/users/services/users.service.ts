@@ -8,6 +8,7 @@ import { UserLoginDto } from '../dto/user-login-dto';
 import { UserInfo } from '../interface/user-info.interface';
 import { UserRepository } from '../repository/user.repository';
 import { DataSource } from 'typeorm';
+import { UserDto } from '../dto/user.dto';
 
 @Injectable()
 export class UsersService {
@@ -34,14 +35,15 @@ export class UsersService {
     return;
   }
 
-  getUserInfo(userId: number): Promise<UserInfo> {
+  async getUserInfo(userId: number): Promise<UserDto> {
     /**
      * @todo
      * 1. userId를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
      * 2. 조회된 데이터를 UserInfo 타입으로 응답
      */
+    const existUser = await this.userRepository.findOneBy({ id: userId });
 
-    throw new Error('Method not implemented');
+    return existUser ? new UserDto(existUser) : null;
   }
 
   verifyEmail(verifyEmailDto: VerifyEmailDto) {

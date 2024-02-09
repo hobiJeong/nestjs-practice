@@ -1,3 +1,4 @@
 export const EMAIL_ENV_TOKEN = 'EMAIL_ENV_TOKEN';
 export const DATABASE_ENV_TOKEN = 'DATABASE_ENV_TOKEN';
 export const SERVER_TOKEN = 'SERVER_TOKEN';
+export const AUTH_TOKEN = 'AUTH_TOKEN';
