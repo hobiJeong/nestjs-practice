@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { UsersModule } from 'src/api/users/users.module';
+import { UsersModule } from 'src/apis/users/users.module';
 import { ApiController } from './api.controller';
 
 @Module({
