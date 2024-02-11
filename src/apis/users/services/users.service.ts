@@ -19,7 +19,6 @@ export class UsersService {
     private readonly emailService: EmailService,
     private readonly userRepository: UserRepository,
     private readonly dataSource: DataSource,
-    private readonly authService: AuthService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -52,24 +51,6 @@ export class UsersService {
 
   findOneBy(options: FindOneOptions) {
     return this.userRepository.findOne(options);
-  }
-
-  async verifyEmail(verifyEmailDto: VerifyEmailDto) {
-    const existUser = await this.findOneBy({ where: { ...verifyEmailDto } });
-
-    if (!existUser) {
-      throw new NotFoundException('해당 유저를 찾지 못했습니다.');
-    }
-
-    return this.authService.login({ ...existUser });
-
-    /**
-     * @todo
-     * 1. DB에서 signupVerifyToken으로 회원 가입 처리중인 유저가 잇는지 조회하고 없다면 에러 처리
-     * 2. 바로 로그인 상태가 되도록 JWT를 발급
-     */
-
-    throw new Error('Method not implemented');
   }
 
   login() {}

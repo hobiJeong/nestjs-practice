@@ -14,10 +14,6 @@ import {
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
-import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
-import { UserLoginDto } from '../dto/user-login-dto';
-import { VerifyEmailDto } from '../dto/verify-email-dto';
-import { UserInfo } from '../interface/user-info.interface';
 import { config } from 'dotenv';
 import { UserDto } from '../dto/user.dto';
 
@@ -30,16 +26,6 @@ export class UsersController {
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<void> {
     return this.usersService.create(createUserDto);
-  }
-
-  @Post('email-verify')
-  verifyEmail(@Query() verifyEmailDto: VerifyEmailDto): string {
-    return this.usersService.verifyEmail(verifyEmailDto);
-  }
-
-  @Post('login')
-  login(@Body() userLoginDto: UserLoginDto): void {
-    return this.usersService.login(userLoginDto);
   }
 
   @Header('NestJS-Book-Study', 'study')
