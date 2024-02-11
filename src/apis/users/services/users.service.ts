@@ -1,14 +1,17 @@
-import { Injectable, ConflictException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import * as uuid from 'uuid';
 import { EmailService } from 'src/apis/email/services/email.service';
 import { VerifyEmailDto } from '../dto/verify-email-dto';
-import { UserLoginDto } from '../dto/user-login-dto';
-import { UserInfo } from '../interface/user-info.interface';
 import { UserRepository } from '../repository/user.repository';
 import { DataSource, FindOneOptions } from 'typeorm';
 import { UserDto } from '../dto/user.dto';
+import { AuthService } from 'src/apis/auth/services/auth.service';
 
 @Injectable()
 export class UsersService {
@@ -16,6 +19,7 @@ export class UsersService {
     private readonly emailService: EmailService,
     private readonly userRepository: UserRepository,
     private readonly dataSource: DataSource,
+    private readonly authService: AuthService,
   ) {}
 
   async create(createUserDto: CreateUserDto) {
@@ -35,7 +39,7 @@ export class UsersService {
     return;
   }
 
-  async getUserInfo(userId: number): Promise<UserDto> {
+  async findOneUser(userId: number): Promise<UserDto> {
     /**
      * @todo
      * 1. userId를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
@@ -47,13 +51,17 @@ export class UsersService {
   }
 
   findOneBy(options: FindOneOptions) {
-    this.userRepository.findOne(options);
+    return this.userRepository.findOne(options);
   }
 
-  verifyEmail(verifyEmailDto: VerifyEmailDto) {
-    const { signupVerifyToken } = verifyEmailDto;
+  async verifyEmail(verifyEmailDto: VerifyEmailDto) {
+    const existUser = await this.findOneBy({ where: { ...verifyEmailDto } });
 
-    return process.env.DB_HOST;
+    if (!existUser) {
+      throw new NotFoundException('해당 유저를 찾지 못했습니다.');
+    }
+
+    return this.authService.login({ ...existUser });
 
     /**
      * @todo
@@ -63,6 +71,8 @@ export class UsersService {
 
     throw new Error('Method not implemented');
   }
+
+  login() {}
 
   private checkUserExists(email: string) {
     return this.userRepository.exists({ where: { email } });

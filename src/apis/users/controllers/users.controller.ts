@@ -54,7 +54,7 @@ export class UsersController {
 
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) userId: number): Promise<UserDto> {
-    return this.usersService.getUserInfo(userId);
+    return this.usersService.findOneUser(userId);
   }
 
   @Patch(':id')

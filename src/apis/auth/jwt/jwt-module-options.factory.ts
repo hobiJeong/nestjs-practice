@@ -13,6 +13,9 @@ export class JwtModuleOptionsFactory implements JwtOptionsFactory {
   createJwtOptions(): JwtModuleOptions {
     return {
       secret: this.config.jwtSecret,
+      signOptions: {
+        expiresIn: '2s',
+      },
     };
   }
 }

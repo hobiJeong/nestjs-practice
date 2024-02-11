@@ -1,30 +1,33 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { sign } from 'jsonwebtoken';
+import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/apis/users/services/users.service';
 import authConfig from 'src/core/config/auth.config';
 import { User } from 'src/entities/User';
+import { Payload } from '../types/auth.type';
+import { UserLoginDto } from 'src/apis/users/dto/user-login-dto';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(authConfig.KEY)
     private readonly config: ConfigType<typeof authConfig>,
+    private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
   ) {}
 
-  login(user: User) {
+  async login(userLoginDto: UserLoginDto) {
     const existUser = await this.usersService.findOneBy({
+      select: ['id'],
       where: {
-        email: user.email,
-        password: user.password,
+        ...userLoginDto,
       },
     });
-    const payload = { ...user };
 
-    return sign(payload, this.config.jwtSecret, {
-      expiresIn: '1d',
-      audience: 'anbb',
-    });
+    return this.generateToken({ ...existUser });
+  }
+
+  generateToken(payload: Payload) {
+    return this.jwtService.sign(payload, { secret: this.config.jwtSecret });
   }
 }
