@@ -16,8 +16,10 @@ export class AuthController {
     return user;
   }
 
-  @Post()
-  signIn(@Body() signInRequestBodyDto: SignInRequestBodyDto) {}
+  @Post('sign-in')
+  signIn(@Body() signInRequestBodyDto: SignInRequestBodyDto) {
+    return this.authService.login(signInRequestBodyDto);
+  }
 
   @Post('email-verify')
   verifyEmail(@Query() verifyEmailDto: VerifyEmailDto): Promise<string> {

@@ -5,8 +5,6 @@ export const User = createParamDecorator(
   (data: keyof UserDto, ctx: ExecutionContext) => {
     const req = ctx.switchToHttp().getRequest();
 
-    console.log(data);
-
     return req.user[data] || req.user;
   },
 );
