@@ -1,17 +1,11 @@
-import {
-  Injectable,
-  ConflictException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import * as uuid from 'uuid';
 import { EmailService } from 'src/apis/email/services/email.service';
-import { VerifyEmailDto } from '../dto/verify-email-dto';
 import { UserRepository } from '../repository/user.repository';
 import { DataSource, FindOneOptions } from 'typeorm';
 import { UserDto } from '../dto/user.dto';
-import { AuthService } from 'src/apis/auth/services/auth.service';
 
 @Injectable()
 export class UsersService {
