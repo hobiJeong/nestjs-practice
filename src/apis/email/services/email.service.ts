@@ -28,7 +28,7 @@ export class EmailService {
   }
 
   sendMemberJoinVerification(emailAddress: string, signupVerifyToken: string) {
-    const url = `${this.config.baseUrl}/users/email-verify?signupVerifyToken=${signupVerifyToken}`;
+    const url = `${this.config.baseUrl}/auth/email-verify?signupVerifyToken=${signupVerifyToken}`;
 
     const mailOptions: EmailOptions = {
       to: emailAddress,
