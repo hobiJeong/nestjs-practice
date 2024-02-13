@@ -1,23 +1,21 @@
 import { Module } from '@nestjs/common';
 import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
-import { JwtModule } from '@nestjs/jwt';
-import { JwtModuleOptionsFactory } from './jwt/jwt-module-options.factory';
 import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './jwt/jwt-access-token.strategy';
+import { JwtAccessTokenStrategy } from './jwt/jwt-access-token.strategy';
 import { JwtServiceFactory } from './jwt/jwt-service.factory';
+import { JwtRefreshTokenStrategy } from './jwt/jwt-refresh-token.strategy';
 
 @Module({
-  imports: [
-    UsersModule,
-    PassportModule,
-    JwtModule.registerAsync({
-      useClass: JwtModuleOptionsFactory,
-    }),
-  ],
+  imports: [UsersModule, PassportModule],
   controllers: [AuthController],
-  providers: [AuthService, JwtServiceFactory, JwtStrategy],
+  providers: [
+    AuthService,
+    JwtServiceFactory,
+    JwtAccessTokenStrategy,
+    JwtRefreshTokenStrategy,
+  ],
   exports: [AuthService],
 })
 export class AuthModule {}

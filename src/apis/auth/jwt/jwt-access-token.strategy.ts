@@ -7,7 +7,7 @@ import { Payload } from '../types/auth.type';
 import { UsersService } from 'src/apis/users/services/users.service';
 
 @Injectable()
-export class JwtStrategy extends PassportStrategy(Strategy) {
+export class JwtAccessTokenStrategy extends PassportStrategy(Strategy) {
   constructor(
     @Inject(authConfig.KEY)
     private readonly config: ConfigType<typeof authConfig>,
