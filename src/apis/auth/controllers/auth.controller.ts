@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../jwt/jwt.guard';
+import { JwtAccessTokenGuard } from '../jwt/jwt-access-token.guard';
 import { User } from 'src/common/decorators/user.decorator';
 import { UserDto } from 'src/apis/users/dto/user.dto';
 import { SignInRequestBodyDto } from '../dtos/sign-in-request-body.dto';
@@ -11,8 +11,9 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  findMyInfo(@User() user: UserDto) {
+  @UseGuards(JwtAccessTokenGuard)
+  findMyInfo(@User('id') user: UserDto) {
+    console.log(user);
     return user;
   }
 

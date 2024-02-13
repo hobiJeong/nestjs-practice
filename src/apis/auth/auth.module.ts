@@ -5,18 +5,19 @@ import { JwtModule } from '@nestjs/jwt';
 import { JwtModuleOptionsFactory } from './jwt/jwt-module-options.factory';
 import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy } from './jwt/jwt.strategy';
+import { JwtStrategy } from './jwt/jwt-access-token.strategy';
+import { JwtServiceFactory } from './jwt/jwt-service.factory';
 
 @Module({
   imports: [
+    UsersModule,
+    PassportModule,
     JwtModule.registerAsync({
       useClass: JwtModuleOptionsFactory,
     }),
-    UsersModule,
-    PassportModule,
   ],
   controllers: [AuthController],
-  providers: [AuthService, JwtModuleOptionsFactory, JwtStrategy],
+  providers: [AuthService, JwtServiceFactory, JwtStrategy],
   exports: [AuthService],
 })
 export class AuthModule {}

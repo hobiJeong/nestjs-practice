@@ -32,7 +32,8 @@ import authConfig from './config/auth.config';
         DB_NAME: Joi.string().required(),
         DB_PORT: Joi.number().required(),
 
-        JWT_SECRET: Joi.string().required(),
+        JWT_ACCESS_TOKEN_SECRET: Joi.string().required(),
+        JWT_REFRESH_TOKEN_SECRET: Joi.string().required(),
       }),
     }),
     TypeOrmModule.forRootAsync({

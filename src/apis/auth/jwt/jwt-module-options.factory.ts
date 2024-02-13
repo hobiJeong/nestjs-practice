@@ -12,9 +12,9 @@ export class JwtModuleOptionsFactory implements JwtOptionsFactory {
 
   createJwtOptions(): JwtModuleOptions {
     return {
-      secret: this.config.jwtSecret,
+      secret: this.config.jwtAccessTokenSecret,
       signOptions: {
-        expiresIn: '1 day',
+        expiresIn: '1 days',
       },
     };
   }

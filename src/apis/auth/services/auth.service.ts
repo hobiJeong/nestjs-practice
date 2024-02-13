@@ -6,13 +6,14 @@ import authConfig from 'src/core/config/auth.config';
 import { Payload } from '../types/auth.type';
 import { UserLoginDto } from 'src/apis/users/dto/user-login-dto';
 import { VerifyEmailDto } from 'src/apis/users/dto/verify-email-dto';
+import { JwtServiceFactory } from '../jwt/jwt-service.factory';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(authConfig.KEY)
     private readonly config: ConfigType<typeof authConfig>,
-    private readonly jwtService: JwtService,
+    private readonly jwtServiceFactory: JwtServiceFactory,
     private readonly usersService: UsersService,
   ) {}
 
@@ -36,10 +37,20 @@ export class AuthService {
       },
     });
 
-    return this.generateToken({ ...existUser });
+    return this.generateAccessToken({ ...existUser });
   }
 
-  generateToken(payload: Payload) {
-    return this.jwtService.sign(payload, { secret: this.config.jwtSecret });
+  generateAccessToken(payload: Payload) {
+    const jwtAccessTokenService =
+      this.jwtServiceFactory.createAccessTokenJwtService();
+
+    return jwtAccessTokenService.sign(payload);
+  }
+
+  generateRefreshToken(payload: Payload) {
+    const jwtRefreshTokenService =
+      this.jwtServiceFactory.createRefreshTokenJwtService();
+
+    return jwtRefreshTokenService.sign(payload);
   }
 }
