@@ -1,6 +1,5 @@
 import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
-import { JwtService } from '@nestjs/jwt';
 import { UsersService } from 'src/apis/users/services/users.service';
 import authConfig from 'src/core/config/auth.config';
 import { Payload } from '../types/auth.type';
