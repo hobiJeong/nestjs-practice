@@ -9,6 +9,7 @@ export class JwtServiceFactory {
     @Inject(authConfig.KEY)
     private readonly config: ConfigType<typeof authConfig>,
   ) {}
+
   createAccessTokenJwtService() {
     return new JwtService({
       secret: this.config.jwtAccessTokenSecret,

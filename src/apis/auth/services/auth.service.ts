@@ -52,4 +52,13 @@ export class AuthService {
 
     return jwtRefreshTokenService.sign(payload);
   }
+
+  renewAccessToken(refreshToken: string) {
+    const jwtRefreshTokenService =
+      this.jwtServiceFactory.createRefreshTokenJwtService();
+
+    const payload: Payload = jwtRefreshTokenService.verify(refreshToken);
+
+    return this.generateAccessToken(payload);
+  }
 }
