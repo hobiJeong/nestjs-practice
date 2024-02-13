@@ -23,7 +23,9 @@ export class AuthController {
   }
 
   @Post('email-verify')
-  verifyEmail(@Query() verifyEmailDto: VerifyEmailDto): Promise<string> {
+  verifyEmail(
+    @Query() verifyEmailDto: VerifyEmailDto,
+  ): Promise<{ accessToken: string; refreshToken: string }> {
     return this.authService.verifyEmail(verifyEmailDto);
   }
 }

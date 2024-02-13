@@ -5,14 +5,14 @@ import authConfig from 'src/core/config/auth.config';
 import { Payload } from '../types/auth.type';
 import { UserLoginDto } from 'src/apis/users/dto/user-login-dto';
 import { VerifyEmailDto } from 'src/apis/users/dto/verify-email-dto';
-import { JwtServiceFactory } from '../jwt/jwt-service.factory';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
     @Inject(authConfig.KEY)
     private readonly config: ConfigType<typeof authConfig>,
-    private readonly jwtServiceFactory: JwtServiceFactory,
+    private readonly jwtService: JwtService,
     private readonly usersService: UsersService,
   ) {}
 
@@ -36,28 +36,30 @@ export class AuthService {
       },
     });
 
-    return this.generateAccessToken({ ...existUser });
+    if (existUser) {
+      throw new NotFoundException('해당 유저를 찾을 수 없습니다.');
+    }
+
+    return {
+      accessToken: this.generateAccessToken({ ...existUser }),
+      refreshToken: this.generateRefreshToken({ ...existUser }),
+    };
   }
 
   generateAccessToken(payload: Payload) {
-    const jwtAccessTokenService =
-      this.jwtServiceFactory.createAccessTokenJwtService();
-
-    return jwtAccessTokenService.sign(payload);
+    return this.jwtService.sign(payload, {
+      expiresIn: '1d',
+    });
   }
 
   generateRefreshToken(payload: Payload) {
-    const jwtRefreshTokenService =
-      this.jwtServiceFactory.createRefreshTokenJwtService();
-
-    return jwtRefreshTokenService.sign(payload);
+    return this.jwtService.sign(payload, {
+      expiresIn: '10 days',
+    });
   }
 
   renewAccessToken(refreshToken: string) {
-    const jwtRefreshTokenService =
-      this.jwtServiceFactory.createRefreshTokenJwtService();
-
-    const payload: Payload = jwtRefreshTokenService.verify(refreshToken);
+    const payload: Payload = this.jwtService.verify(refreshToken);
 
     return this.generateAccessToken(payload);
   }
