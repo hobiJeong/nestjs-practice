@@ -13,7 +13,6 @@ export class AuthController {
   @Get()
   @UseGuards(JwtAccessTokenGuard)
   findMyInfo(@User('id') user: UserDto) {
-    console.log(user);
     return user;
   }
 

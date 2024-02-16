@@ -6,6 +6,8 @@ import { EmailService } from 'src/apis/email/services/email.service';
 import { UserRepository } from '../repository/user.repository';
 import { DataSource, FindOneOptions } from 'typeorm';
 import { UserDto } from '../dto/user.dto';
+import { UUID } from 'crypto';
+import { UserStatus } from '../constants/user-status.enum';
 
 @Injectable()
 export class UsersService {
@@ -25,7 +27,7 @@ export class UsersService {
 
     const signupVerifyToken = uuid.v1();
 
-    await this.saveUser({ ...createUserDto }, signupVerifyToken);
+    await this.saveUser({ ...createUserDto }, signupVerifyToken as UUID);
 
     await this.sendMemberJoinEmail(email, signupVerifyToken);
 
@@ -58,7 +60,7 @@ export class UsersService {
    */
   private async saveUser(
     createUserDto: CreateUserDto,
-    signupVerifyToken: string,
+    signupVerifyToken: UUID,
   ) {
     return this.userRepository.save({ ...createUserDto, signupVerifyToken });
   }
@@ -80,6 +82,13 @@ export class UsersService {
 
   update(id: number, updateUserDto: UpdateUserDto) {
     return `This action updates a #${id} user`;
+  }
+
+  verifyUser(signupVerifyToken: UUID, userId: number) {
+    return this.userRepository.update(
+      { id: userId, signupVerifyToken },
+      { status: UserStatus.Active },
+    );
   }
 
   remove(id: number) {

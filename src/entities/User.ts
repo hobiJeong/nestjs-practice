@@ -1,3 +1,5 @@
+import { UUID } from 'crypto';
+import { UserStatus } from 'src/apis/users/constants/user-status.enum';
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 @Index('UQ_e12875dfb3b1d92d7d7c5377e22', ['email'], { unique: true })
@@ -30,7 +32,15 @@ export class User {
     comment: '유저 회원가입 인증 토큰',
     length: 60,
   })
-  signupVerifyToken: string;
+  signupVerifyToken: UUID;
+
+  @Column('enum', {
+    comment: '유저 상태',
+    nullable: false,
+    enum: UserStatus,
+    default: UserStatus.Inactive,
+  })
+  status: UserStatus;
 
   @Column('timestamp', {
     name: 'created_at',

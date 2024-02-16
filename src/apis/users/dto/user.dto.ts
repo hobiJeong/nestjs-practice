@@ -1,5 +1,7 @@
 import { Exclude } from 'class-transformer';
+import { UUID } from 'crypto';
 import { User } from 'src/entities/User';
+import { UserStatus } from '../constants/user-status.enum';
 
 export class UserDto implements User {
   id: number;
@@ -12,7 +14,10 @@ export class UserDto implements User {
   password: string;
 
   @Exclude()
-  signupVerifyToken: string;
+  signupVerifyToken: UUID;
+
+  @Exclude()
+  status: UserStatus;
 
   createdAt: Date;
 

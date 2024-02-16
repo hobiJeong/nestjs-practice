@@ -6,6 +6,7 @@ import { Payload } from '../types/auth.type';
 import { UserLoginDto } from 'src/apis/users/dto/user-login-dto';
 import { VerifyEmailDto } from 'src/apis/users/dto/verify-email-dto';
 import { JwtService } from '@nestjs/jwt';
+import { UserStatus } from 'src/apis/users/constants/user-status.enum';
 
 @Injectable()
 export class AuthService {
@@ -18,12 +19,17 @@ export class AuthService {
 
   async verifyEmail(verifyEmailDto: VerifyEmailDto) {
     const existUser = await this.usersService.findOneBy({
-      where: { ...verifyEmailDto },
+      where: { ...verifyEmailDto, status: UserStatus.Inactive },
     });
 
     if (!existUser) {
       throw new NotFoundException('해당 유저를 찾지 못했습니다.');
     }
+
+    await this.usersService.verifyUser(
+      verifyEmailDto.signupVerifyToken,
+      existUser.id,
+    );
 
     return this.login({ ...existUser });
   }
@@ -33,6 +39,7 @@ export class AuthService {
       select: ['id'],
       where: {
         ...userLoginDto,
+        status: UserStatus.Active,
       },
     });
 
