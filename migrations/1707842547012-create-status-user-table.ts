@@ -9,7 +9,7 @@ export class CreateStatusUserTable1707842547012 implements MigrationInterface {
         name: 'status',
         type: 'enum',
         enum: [UserStatus.Active, UserStatus.Inactive, UserStatus.Delete],
-        default: UserStatus.Inactive,
+        default: `'${UserStatus.Inactive}'`,
         isNullable: false,
         comment: '유저 상태',
       }),
