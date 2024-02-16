@@ -35,6 +35,7 @@ export class AuthService {
   }
 
   async login(userLoginDto: UserLoginDto) {
+    console.log(userLoginDto);
     const existUser = await this.usersService.findOneBy({
       select: ['id'],
       where: {
@@ -43,7 +44,7 @@ export class AuthService {
       },
     });
 
-    if (existUser) {
+    if (!existUser) {
       throw new NotFoundException('해당 유저를 찾을 수 없습니다.');
     }
 
