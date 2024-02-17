@@ -5,6 +5,7 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import authConfig from 'src/core/config/auth.config';
 import { Payload } from '../types/auth.type';
 import { UsersService } from 'src/apis/users/services/users.service';
+import { UserStatus } from 'src/apis/users/constants/user-status.enum';
 
 @Injectable()
 export class JwtRefreshTokenStrategy extends PassportStrategy(
@@ -24,7 +25,9 @@ export class JwtRefreshTokenStrategy extends PassportStrategy(
   }
 
   async validate(payload: Payload) {
-    const existUser = await this.usersService.findOneUser(payload.id);
+    const existUser = await this.usersService.findOne({
+      where: { id: payload.id, status: UserStatus.Active },
+    });
 
     if (!existUser) {
       throw new UnauthorizedException('유효하지 않은 토큰입니다.');
