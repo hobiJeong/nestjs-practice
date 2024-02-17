@@ -10,12 +10,15 @@ import {
   Query,
   DefaultValuePipe,
   ParseIntPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { config } from 'dotenv';
 import { UserDto } from '../dto/user.dto';
+import { JwtAccessTokenGuard } from 'src/apis/auth/jwt/jwt-access-token.guard';
+import { User } from 'src/common/decorators/user.decorator';
 
 config();
 
@@ -39,8 +42,12 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) userId: number): Promise<UserDto> {
-    return this.usersService.findOneUser(userId);
+  @UseGuards(JwtAccessTokenGuard)
+  findOne(
+    @User('id') id: number,
+    @Param('id', ParseIntPipe) userId: number,
+  ): Promise<UserDto> {
+    return this.usersService.findOneUserBy(id, userId);
   }
 
   @Patch(':id')
