@@ -1,11 +1,11 @@
 import { Body, Controller, Get, Post, Query, UseGuards } from '@nestjs/common';
-import { JwtAccessTokenGuard } from '../jwt/jwt-access-token.guard';
+import { JwtAccessTokenGuard } from '../jwt/guards/jwt-access-token.guard';
 import { User } from 'src/common/decorators/user.decorator';
 import { UserDto } from 'src/apis/users/dto/user.dto';
 import { SignInRequestBodyDto } from '../dtos/sign-in-request-body.dto';
 import { VerifyEmailDto } from 'src/apis/users/dto/verify-email-dto';
 import { AuthService } from '../services/auth.service';
-import { JwtRefreshTokenGuard } from '../jwt/jwt-refresh-token.guard';
+import { JwtRefreshTokenGuard } from '../jwt/guards/jwt-refresh-token.guard';
 
 @Controller('auth')
 export class AuthController {

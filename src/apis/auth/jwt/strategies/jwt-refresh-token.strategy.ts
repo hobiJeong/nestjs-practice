@@ -3,12 +3,15 @@ import { ConfigType } from '@nestjs/config';
 import { PassportStrategy } from '@nestjs/passport';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import authConfig from 'src/core/config/auth.config';
-import { Payload } from '../types/auth.type';
+import { Payload } from '../../types/auth.type';
 import { UsersService } from 'src/apis/users/services/users.service';
 import { UserStatus } from 'src/apis/users/constants/user-status.enum';
 
 @Injectable()
-export class JwtAccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
+export class JwtRefreshTokenStrategy extends PassportStrategy(
+  Strategy,
+  'jwt-refresh',
+) {
   constructor(
     @Inject(authConfig.KEY)
     private readonly config: ConfigType<typeof authConfig>,
@@ -17,7 +20,7 @@ export class JwtAccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
-      secretOrKey: config.jwtAccessTokenSecret,
+      secretOrKey: config.jwtRefreshTokenSecret,
     });
   }
 

@@ -3,8 +3,8 @@ import { AuthController } from './controllers/auth.controller';
 import { AuthService } from './services/auth.service';
 import { UsersModule } from '../users/users.module';
 import { PassportModule } from '@nestjs/passport';
-import { JwtAccessTokenStrategy } from './jwt/jwt-access-token.strategy';
-import { JwtRefreshTokenStrategy } from './jwt/jwt-refresh-token.strategy';
+import { JwtAccessTokenStrategy } from './jwt/strategies/jwt-access-token.strategy';
+import { JwtRefreshTokenStrategy } from './jwt/strategies/jwt-refresh-token.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtModuleOptionsFactory } from './jwt/jwt-module-options.factory';
 

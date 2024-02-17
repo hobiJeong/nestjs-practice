@@ -17,8 +17,10 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import { config } from 'dotenv';
 import { UserDto } from '../dto/user.dto';
-import { JwtAccessTokenGuard } from 'src/apis/auth/jwt/jwt-access-token.guard';
+import { JwtAccessTokenGuard } from 'src/apis/auth/jwt/guards/jwt-access-token.guard';
 import { User } from 'src/common/decorators/user.decorator';
+import { Roles } from '../decorators/roles.decorator';
+import { UserRole } from '../constants/user-role.enum';
 
 config();
 
@@ -27,6 +29,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @Roles(UserRole.Admin)
   async create(@Body() createUserDto: CreateUserDto): Promise<void> {
     return this.usersService.create(createUserDto);
   }
