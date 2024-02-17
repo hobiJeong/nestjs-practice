@@ -5,9 +5,10 @@ import { ExtractJwt, Strategy } from 'passport-jwt';
 import authConfig from 'src/core/config/auth.config';
 import { Payload } from '../types/auth.type';
 import { UsersService } from 'src/apis/users/services/users.service';
+import { UserStatus } from 'src/apis/users/constants/user-status.enum';
 
 @Injectable()
-export class JwtAccessTokenStrategy extends PassportStrategy(Strategy) {
+export class JwtAccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   constructor(
     @Inject(authConfig.KEY)
     private readonly config: ConfigType<typeof authConfig>,
@@ -21,7 +22,9 @@ export class JwtAccessTokenStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: Payload) {
-    const existUser = await this.usersService.findOneUser(payload.id);
+    const existUser = await this.usersService.findOne({
+      where: { id: payload.id, status: UserStatus.Active },
+    });
 
     if (!existUser) {
       throw new UnauthorizedException('유효하지 않은 토큰입니다.');
