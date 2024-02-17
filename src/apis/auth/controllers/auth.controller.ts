@@ -5,6 +5,7 @@ import { UserDto } from 'src/apis/users/dto/user.dto';
 import { SignInRequestBodyDto } from '../dtos/sign-in-request-body.dto';
 import { VerifyEmailDto } from 'src/apis/users/dto/verify-email-dto';
 import { AuthService } from '../services/auth.service';
+import { JwtRefreshTokenGuard } from '../jwt/jwt-refresh-token.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -19,6 +20,12 @@ export class AuthController {
   @Post('sign-in')
   signIn(@Body() signInRequestBodyDto: SignInRequestBodyDto) {
     return this.authService.login(signInRequestBodyDto);
+  }
+
+  @Get('access-token')
+  @UseGuards(JwtRefreshTokenGuard)
+  renewAccessToken(@User('id') user: UserDto) {
+    return user;
   }
 
   @Post('email-verify')
