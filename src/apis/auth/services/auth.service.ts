@@ -18,7 +18,7 @@ export class AuthService {
   ) {}
 
   async verifyEmail(verifyEmailDto: VerifyEmailDto) {
-    const existUser = await this.usersService.findOneBy({
+    const existUser = await this.usersService.findOne({
       where: { ...verifyEmailDto, status: UserStatus.Inactive },
     });
 
@@ -35,8 +35,7 @@ export class AuthService {
   }
 
   async login(userLoginDto: UserLoginDto) {
-    console.log(userLoginDto);
-    const existUser = await this.usersService.findOneBy({
+    const existUser = await this.usersService.findOne({
       select: ['id'],
       where: {
         ...userLoginDto,
@@ -63,6 +62,7 @@ export class AuthService {
   generateRefreshToken(payload: Payload) {
     return this.jwtService.sign(payload, {
       expiresIn: '10 days',
+      secret: this.config.jwtRefreshTokenSecret,
     });
   }
 
