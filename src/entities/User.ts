@@ -1,4 +1,5 @@
 import { UUID } from 'crypto';
+import { UserRole } from 'src/apis/users/constants/user-role.enum';
 import { UserStatus } from 'src/apis/users/constants/user-status.enum';
 import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
@@ -41,6 +42,13 @@ export class User {
     default: UserStatus.Inactive,
   })
   status: UserStatus;
+
+  @Column('enum', {
+    nullable: false,
+    enum: UserRole,
+    default: UserRole.User,
+  })
+  role: UserRole;
 
   @Column('timestamp', {
     name: 'created_at',

@@ -8,6 +8,7 @@ import { DataSource, FindOneOptions } from 'typeorm';
 import { UserDto } from '../dto/user.dto';
 import { UUID } from 'crypto';
 import { UserStatus } from '../constants/user-status.enum';
+import { User } from 'src/entities/User';
 
 @Injectable()
 export class UsersService {
@@ -40,7 +41,7 @@ export class UsersService {
     return existUser ? new UserDto(existUser) : null;
   }
 
-  findOne(options: FindOneOptions) {
+  findOne(options: FindOneOptions<User>) {
     return this.userRepository.findOne(options);
   }
 
