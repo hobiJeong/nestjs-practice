@@ -21,6 +21,7 @@ import { JwtAccessTokenGuard } from 'src/apis/auth/jwt/guards/jwt-access-token.g
 import { User } from 'src/common/decorators/user.decorator';
 import { Roles } from '../decorators/roles.decorator';
 import { UserRole } from '../constants/user-role.enum';
+import { HandlerRolesGuard } from 'src/apis/auth/jwt/guards/handler-roles.guard';
 
 config();
 
@@ -29,6 +30,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
+  @UseGuards(HandlerRolesGuard)
   @Roles(UserRole.Admin)
   async create(@Body() createUserDto: CreateUserDto): Promise<void> {
     return this.usersService.create(createUserDto);

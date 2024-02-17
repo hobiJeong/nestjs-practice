@@ -22,6 +22,8 @@ export class JwtAccessTokenStrategy extends PassportStrategy(Strategy, 'jwt') {
   }
 
   async validate(payload: Payload) {
+    console.log(2);
+
     const existUser = await this.usersService.findOne({
       where: { id: payload.id, status: UserStatus.Active },
     });
