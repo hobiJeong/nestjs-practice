@@ -34,18 +34,13 @@ export class UsersService {
     return;
   }
 
-  async findOneUser(userId: number): Promise<UserDto> {
-    /**
-     * @todo
-     * 1. userId를 가진 유저가 존재하는지 DB에서 확인하고 없다면 에러 처리
-     * 2. 조회된 데이터를 UserInfo 타입으로 응답
-     */
+  async findOneUserBy(myId: number, userId: number): Promise<UserDto> {
     const existUser = await this.userRepository.findOneBy({ id: userId });
 
     return existUser ? new UserDto(existUser) : null;
   }
 
-  findOneBy(options: FindOneOptions) {
+  findOne(options: FindOneOptions) {
     return this.userRepository.findOne(options);
   }
 
@@ -74,10 +69,6 @@ export class UsersService {
 
   findAll() {
     return `This action returns all users`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} user`;
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
