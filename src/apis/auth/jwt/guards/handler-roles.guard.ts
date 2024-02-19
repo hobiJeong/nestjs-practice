@@ -1,4 +1,4 @@
-import { ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { UserRole } from 'src/apis/users/constants/user-role.enum';
@@ -7,26 +7,20 @@ import { Payload } from '../../types/auth.type';
 import { USER_ROLE_TOKEN } from 'src/apis/users/constants/user-role.token';
 
 @Injectable()
-export class HandlerRolesGuard extends AuthGuard('jwt') {
+export class HandlerRolesGuard implements CanActivate {
   constructor(
     private readonly reflector: Reflector,
     private readonly usersService: UsersService,
-  ) {
-    super();
-  }
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-
-    console.log(1);
 
     const { role } = await this.usersService.findOne({
       where: { id: request.user.id },
     });
 
-    const active = await super.canActivate(context);
-
-    return role === this.checkRole(context);
+    return this.checkRole(context).includes(role);
   }
 
   private checkRole(context: ExecutionContext) {
