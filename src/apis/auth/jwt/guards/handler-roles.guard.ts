@@ -22,6 +22,9 @@ export class HandlerRolesGuard implements CanActivate {
   }
 
   private checkRole(context: ExecutionContext) {
-    return this.reflector.get<UserRole>(USER_ROLE_TOKEN, context.getHandler());
+    return this.reflector.get<UserRole[]>(
+      USER_ROLE_TOKEN,
+      context.getHandler(),
+    );
   }
 }
