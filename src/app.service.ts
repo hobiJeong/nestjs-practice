@@ -1,4 +1,4 @@
-import { Inject, Injectable } from '@nestjs/common';
+import { Inject, Injectable, Logger } from '@nestjs/common';
 import { ConfigService, ConfigType } from '@nestjs/config';
 import serverConfig from './core/config/server.config';
 import emailConfig from './core/config/email.config';
@@ -10,12 +10,20 @@ type CombineConfig = typeof serverConfig &
 
 @Injectable()
 export class AppService {
+  private readonly logger = new Logger(AppService.name);
+
   constructor(
     @Inject(serverConfig.KEY)
     private readonly config: ConfigType<typeof serverConfig>,
     private readonly configService: ConfigService<CombineConfig, true>,
   ) {}
   getHello(): string {
+    this.logger.error('level: error');
+    this.logger.warn('level: warn');
+    this.logger.log('level: log');
+    this.logger.verbose('level: verbose');
+    this.logger.debug('level: debug');
+
     return 'Hello World!';
   }
 
