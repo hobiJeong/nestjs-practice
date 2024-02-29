@@ -3,6 +3,7 @@ import { ConfigService, ConfigType } from '@nestjs/config';
 import serverConfig from './core/config/server.config';
 import emailConfig from './core/config/email.config';
 import typeOrmConfig from './core/config/type-orm.config';
+import { CustomLogger } from 'src/middlewares/custom-logger.middleware';
 
 type CombineConfig = typeof serverConfig &
   typeof emailConfig &
@@ -10,19 +11,19 @@ type CombineConfig = typeof serverConfig &
 
 @Injectable()
 export class AppService {
-  private readonly logger = new Logger(AppService.name);
-
   constructor(
     @Inject(serverConfig.KEY)
     private readonly config: ConfigType<typeof serverConfig>,
     private readonly configService: ConfigService<CombineConfig, true>,
+    private readonly customLogger: CustomLogger,
   ) {}
   getHello(): string {
-    this.logger.error('level: error');
-    this.logger.warn('level: warn');
-    this.logger.log('level: log');
-    this.logger.verbose('level: verbose');
-    this.logger.debug('level: debug');
+    console.log('hi');
+    this.customLogger.error('level: error');
+    this.customLogger.warn('level: warn');
+    this.customLogger.log('level: log');
+    this.customLogger.verbose('level: verbose');
+    this.customLogger.debug('level: debug');
 
     return 'Hello World!';
   }
