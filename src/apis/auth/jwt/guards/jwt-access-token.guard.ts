@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class JwtAccessTokenGuard extends AuthGuard('jwt') {
   handleRequest(err, user) {
-    console.log(1);
+    console.log(3);
     if (err || !user) {
       throw new UnauthorizedException('유효하지 않은 토큰입니다.');
     }
@@ -21,7 +21,7 @@ export class JwtAccessTokenGuard extends AuthGuard('jwt') {
   ): boolean | Promise<boolean> | Observable<boolean> {
     const req = context.switchToHttp().getRequest();
 
-    console.log(req);
+    console.log(req, 1);
 
     return super.canActivate(context);
   }
