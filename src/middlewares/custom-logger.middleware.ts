@@ -11,7 +11,7 @@ export class CustomLogger extends ConsoleLogger {
     context?: unknown,
     ...rest: unknown[]
   ): void {
-    console.log(message, stack, context, rest);
+    // console.log(message, stack, context, rest);
     super.error.apply(this, arguments);
     this.doSomething();
   }
