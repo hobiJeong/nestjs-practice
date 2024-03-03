@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoreModule } from './core/core.module';
 import { ApiModule } from './apis/api.module';
-import { CustomLogger } from './middlewares/custom-logger.middleware';
 import { LoggerModule } from 'src/middlewares/logger.module';
 
 @Module({

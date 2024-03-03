@@ -14,7 +14,6 @@ export class AppService {
   constructor(
     @Inject(serverConfig.KEY)
     private readonly config: ConfigType<typeof serverConfig>,
-    private readonly configService: ConfigService<CombineConfig, true>,
     private readonly customLogger: CustomLogger,
   ) {}
   getHello(): string {
