@@ -22,9 +22,9 @@ export class UsersService {
     const { email } = createUserDto;
     const isExistUser = await this.checkUserExists(email);
 
-    if (isExistUser) {
-      throw new ConflictException('An email that already exists.');
-    }
+    // if (isExistUser) {
+    //   throw new ConflictException('An email that already exists.');
+    // }
 
     const signupVerifyToken = uuid.v1();
 

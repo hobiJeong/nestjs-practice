@@ -14,6 +14,8 @@ import {
   Inject,
   LoggerService,
   Logger,
+  BadRequestException,
+  SetMetadata,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -53,6 +55,11 @@ export class UsersController {
   // @Roles(UserRole.Admin)
   async create(@Body() createUserDto: CreateUserDto): Promise<void> {
     this.testLog(createUserDto);
+
+    // throw new BadRequestException({
+    //   message: '에러필터 테스트',
+    //   error: { createUserDto },
+    // });
 
     return this.usersService.create(createUserDto);
   }
