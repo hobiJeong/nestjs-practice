@@ -11,6 +11,8 @@ import {
   utilities as nestWinstonModuleUtilities,
 } from 'nest-winston';
 import * as winston from 'winston';
+import { HttpExceptionFilter } from 'src/http-exceptions/filters/http-exception.filter';
+import { HttpServerErrorFilter } from 'src/http-exceptions/filters/http-server-error.filter';
 
 config();
 
@@ -46,6 +48,10 @@ async function bootstrap() {
       whitelist: true,
       forbidNonWhitelisted: true,
     }),
+  );
+  app.useGlobalFilters(
+    app.get(HttpExceptionFilter),
+    app.get(HttpServerErrorFilter),
   );
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
   appService.getHello();
