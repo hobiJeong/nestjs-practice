@@ -11,9 +11,11 @@ import { TypeOrmModuleOptionsFactory } from './type-orm/type-orm-module-options.
 import authConfig from './config/auth.config';
 import { WinstonModule } from 'nest-winston';
 import { WinstonLoggerConfigFactory } from 'src/core/winston/winston-logger.config';
+import { HttpExceptionModule } from 'src/http-exceptions/http-exception.module';
 
 @Module({
   imports: [
+    HttpExceptionModule,
     CommonModule,
     ConfigModule.forRoot({
       envFilePath: [`.${process.env.NODE_ENV}.env`],
