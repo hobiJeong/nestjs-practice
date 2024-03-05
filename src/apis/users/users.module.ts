@@ -4,9 +4,14 @@ import { UsersController } from './controllers/users.controller';
 import { EmailModule } from 'src/apis/email/email.module';
 import { TypeOrmExModule } from 'src/core/type-orm/type-orm-ex.module';
 import { UserRepository } from './repository/user.repository';
+import { LoggerModule } from 'src/middlewares/logger.module';
 
 @Module({
-  imports: [EmailModule, TypeOrmExModule.forCustomRepository([UserRepository])],
+  imports: [
+    EmailModule,
+    TypeOrmExModule.forCustomRepository([UserRepository]),
+    LoggerModule,
+  ],
   controllers: [UsersController],
   providers: [UsersService, Logger],
   exports: [UsersService],
