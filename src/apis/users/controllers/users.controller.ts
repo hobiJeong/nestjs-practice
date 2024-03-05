@@ -30,6 +30,8 @@ import {
   WINSTON_MODULE_PROVIDER,
 } from 'nest-winston';
 import { Logger as WinstonLogger } from 'winston';
+import { CustomLogger } from 'src/middlewares/custom-logger.middleware';
+import { ParsePositiveIntPipe } from 'src/common/validation-pipe/parse-positive-int.pipe';
 
 config();
 
@@ -43,6 +45,7 @@ export class UsersController {
     private readonly loggerService: LoggerService,
     @Inject(Logger)
     private readonly mainLogger: LoggerService,
+    private readonly customLogger: CustomLogger,
   ) {}
 
   @Post()
@@ -55,23 +58,25 @@ export class UsersController {
   }
 
   private testLog(dto: CreateUserDto) {
-    this.logger.error('error: ', dto);
-    this.logger.warn('warn: ', dto);
-    this.logger.info('info: ', dto);
-    this.logger.http('http: ', dto);
-    this.logger.verbose('verbose: ', dto);
-    this.logger.debug('debug: ', dto);
-    this.logger.silly('silly: ', dto);
+    this.customLogger.error('로거', JSON.stringify(dto));
 
-    this.loggerService.warn('warn: ' + JSON.stringify(dto));
-    this.loggerService.log('log: ' + JSON.stringify(dto));
-    this.loggerService.verbose('verbose: ' + JSON.stringify(dto));
-    this.loggerService.debug('debug: ' + JSON.stringify(dto));
+    // this.logger.error('error: ', dto);
+    // this.logger.warn('warn: ', dto);
+    // this.logger.info('info: ', dto);
+    // this.logger.http('http: ', dto);
+    // this.logger.verbose('verbose: ', dto);
+    // this.logger.debug('debug: ', dto);
+    // this.logger.silly('silly: ', dto);
 
-    this.mainLogger.warn('warn: ' + JSON.stringify(dto));
-    this.mainLogger.log('log: ' + JSON.stringify(dto));
-    this.mainLogger.verbose('verbose: ' + JSON.stringify(dto));
-    this.mainLogger.debug('debug: ' + JSON.stringify(dto));
+    // this.loggerService.warn('warn: ' + JSON.stringify(dto));
+    // this.loggerService.log('log: ' + JSON.stringify(dto));
+    // this.loggerService.verbose('verbose: ' + JSON.stringify(dto));
+    // this.loggerService.debug('debug: ' + JSON.stringify(dto));
+
+    // this.mainLogger.warn('warn: ' + JSON.stringify(dto));
+    // this.mainLogger.log('log: ' + JSON.stringify(dto));
+    // this.mainLogger.verbose('verbose: ' + JSON.stringify(dto));
+    // this.mainLogger.debug('debug: ' + JSON.stringify(dto));
   }
 
   @Header('NestJS-Book-Study', 'study')
@@ -88,7 +93,7 @@ export class UsersController {
   @UseGuards(JwtAccessTokenGuard)
   findOne(
     @User('id') id: number,
-    @Param('id', ParseIntPipe) userId: number,
+    @Param('id', ParsePositiveIntPipe) userId: number,
   ): Promise<UserDto> {
     return this.usersService.findOneUserBy(id, userId);
   }
