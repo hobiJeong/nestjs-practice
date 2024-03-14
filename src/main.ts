@@ -13,6 +13,9 @@ import {
 import * as winston from 'winston';
 import { HttpExceptionFilter } from 'src/http-exceptions/filters/http-exception.filter';
 import { HttpServerErrorFilter } from 'src/http-exceptions/filters/http-server-error.filter';
+import { LoggingInterceptor } from 'src/interceptors/logging.interceptor';
+import { TransformInterceptor } from 'src/interceptors/transform.interceptor';
+import { ErrorsInterceptor } from 'src/interceptors/errors.interceptor';
 
 config();
 
@@ -49,6 +52,12 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+
+  app.useGlobalInterceptors(
+    new TransformInterceptor(),
+    new ErrorsInterceptor(),
+  );
+
   app.useGlobalFilters(
     app.get(HttpExceptionFilter),
     app.get(HttpServerErrorFilter),
