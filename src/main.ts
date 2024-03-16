@@ -66,7 +66,6 @@ async function bootstrap() {
   appService.getHello();
 
   const port = appService.getPort();
-
   await app.listen(port);
 }
 bootstrap();
