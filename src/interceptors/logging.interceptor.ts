@@ -14,9 +14,7 @@ export class LoggingInterceptor implements NestInterceptor {
     context: ExecutionContext,
     next: CallHandler<any>,
   ): Observable<any> | Promise<Observable<any>> {
-    const { method, url, body } = context.getArgByIndex(0);
-    const arg = context.getArgByIndex(0);
-    this.customLogger.log(arg);
+    const { method, url } = context.getArgByIndex(0);
 
     this.customLogger.log(`Request to ${method} ${url}`);
 
