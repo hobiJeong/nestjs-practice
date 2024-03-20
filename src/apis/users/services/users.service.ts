@@ -4,11 +4,12 @@ import { UpdateUserDto } from '../dto/update-user.dto';
 import * as uuid from 'uuid';
 import { EmailService } from 'src/apis/email/services/email.service';
 import { UserRepository } from '../repository/user.repository';
-import { DataSource, FindOneOptions } from 'typeorm';
+import { DataSource, FindOneOptions, Repository } from 'typeorm';
 import { UserDto } from '../dto/user.dto';
 import { UUID } from 'crypto';
 import { UserStatus } from '../constants/user-status.enum';
 import { User } from 'src/entities/User';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class UsersService {
@@ -23,6 +24,7 @@ export class UsersService {
    */
   async create(createUserDto: CreateUserDto) {
     const { email } = createUserDto;
+
     const isExistUser = await this.checkUserExists(email);
 
     // if (isExistUser) {
