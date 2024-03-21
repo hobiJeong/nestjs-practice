@@ -7,6 +7,7 @@ import { JwtAccessTokenStrategy } from './jwt/strategies/jwt-access-token.strate
 import { JwtRefreshTokenStrategy } from './jwt/strategies/jwt-refresh-token.strategy';
 import { JwtModule } from '@nestjs/jwt';
 import { JwtModuleOptionsFactory } from './jwt/jwt-module-options.factory';
+import { CqrsModule } from '@nestjs/cqrs';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { JwtModuleOptionsFactory } from './jwt/jwt-module-options.factory';
       useClass: JwtModuleOptionsFactory,
     }),
     PassportModule,
+    CqrsModule,
   ],
   controllers: [AuthController],
   providers: [
