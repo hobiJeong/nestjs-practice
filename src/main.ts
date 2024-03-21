@@ -1,6 +1,6 @@
-import { NestFactory } from '@nestjs/core';
+import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { ValidationPipe } from '@nestjs/common';
+import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { AppService } from './app.service';
 import { LoggerTwoMiddleware } from './middlewares/logger-two.middleware';
 import { config } from 'dotenv';
@@ -56,6 +56,7 @@ async function bootstrap() {
   app.useGlobalInterceptors(
     new TransformInterceptor(),
     new ErrorsInterceptor(),
+    new ClassSerializerInterceptor(app.get<Reflector>(Reflector)),
   );
 
   app.useGlobalFilters(
