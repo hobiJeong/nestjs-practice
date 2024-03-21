@@ -6,7 +6,9 @@ import { TypeOrmExModule } from 'src/core/type-orm/type-orm-ex.module';
 import { UserRepository } from './repository/user.repository';
 import { LoggerModule } from 'src/middlewares/logger.module';
 import { CqrsModule } from '@nestjs/cqrs';
-import { CreateUserHandler } from 'src/apis/users/handlers/create-user.handler';
+import { CreateUserHandler } from 'src/apis/users/handlers/commands/create-user.handler';
+import { UserEventsHandler } from 'src/apis/users/handlers/events/user-events.handler';
+import { GetUserQueryHandler } from 'src/apis/users/handlers/queries/get-user-query.handler';
 
 @Module({
   imports: [
@@ -16,7 +18,13 @@ import { CreateUserHandler } from 'src/apis/users/handlers/create-user.handler';
     CqrsModule,
   ],
   controllers: [UsersController],
-  providers: [UsersService, Logger, CreateUserHandler],
+  providers: [
+    UsersService,
+    Logger,
+    CreateUserHandler,
+    UserEventsHandler,
+    GetUserQueryHandler,
+  ],
   exports: [UsersService],
 })
 export class UsersModule {}
