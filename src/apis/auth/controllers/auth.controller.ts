@@ -6,10 +6,14 @@ import { SignInRequestBodyDto } from '../dtos/sign-in-request-body.dto';
 import { VerifyEmailDto } from 'src/apis/users/dto/verify-email-dto';
 import { AuthService } from '../services/auth.service';
 import { JwtRefreshTokenGuard } from '../jwt/guards/jwt-refresh-token.guard';
+import { CommandBus } from '@nestjs/cqrs';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(
+    private readonly authService: AuthService,
+    private readonly commandBus: CommandBus,
+  ) {}
 
   @Get()
   @UseGuards(JwtAccessTokenGuard)
