@@ -35,8 +35,9 @@ import {
 import { Logger as WinstonLogger } from 'winston';
 import { CustomLogger } from 'src/middlewares/custom-logger.middleware';
 import { ParsePositiveIntPipe } from 'src/common/validation-pipe/parse-positive-int.pipe';
-import { CommandBus } from '@nestjs/cqrs';
+import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { CreateUserCommand } from 'src/apis/users/commands/create-user.command';
+import { GetUserQuery } from 'src/apis/users/queries/get-user.query';
 
 config();
 
@@ -52,6 +53,7 @@ export class UsersController {
     private readonly mainLogger: LoggerService,
     private readonly customLogger: CustomLogger,
     private readonly commandBus: CommandBus,
+    private readonly queryBus: QueryBus,
   ) {}
 
   @Post()
@@ -100,12 +102,12 @@ export class UsersController {
   }
 
   @Get(':id')
-  @UseGuards(JwtAccessTokenGuard)
+  // @UseGuards(JwtAccessTokenGuard)
   findOne(
-    @User('id') id: number,
+    // @User('id') id: number,
     @Param('id', ParsePositiveIntPipe) userId: number,
   ): Promise<UserDto> {
-    return this.usersService.findOneUserBy(id, userId);
+    return this.queryBus.execute(new GetUserQuery(userId));
   }
 
   @Patch(':id')
