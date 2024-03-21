@@ -35,6 +35,8 @@ import {
 import { Logger as WinstonLogger } from 'winston';
 import { CustomLogger } from 'src/middlewares/custom-logger.middleware';
 import { ParsePositiveIntPipe } from 'src/common/validation-pipe/parse-positive-int.pipe';
+import { CommandBus } from '@nestjs/cqrs';
+import { CreateUserCommand } from 'src/apis/users/commands/create-user.command';
 
 config();
 
@@ -49,6 +51,7 @@ export class UsersController {
     @Inject(Logger)
     private readonly mainLogger: LoggerService,
     private readonly customLogger: CustomLogger,
+    private readonly commandBus: CommandBus,
   ) {}
 
   @Post()
@@ -57,12 +60,11 @@ export class UsersController {
   async create(@Body() createUserDto: CreateUserDto): Promise<void> {
     this.testLog(createUserDto);
 
-    // throw new BadRequestException({
-    //   message: '에러필터 테스트',
-    //   error: { createUserDto },
-    // });
+    const { name, email, password } = createUserDto;
 
-    return this.usersService.create(createUserDto);
+    const command = new CreateUserCommand(name, email, password);
+
+    return this.commandBus.execute(command);
   }
 
   private testLog(dto: CreateUserDto) {
