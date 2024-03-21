@@ -7,6 +7,7 @@ import { VerifyEmailDto } from 'src/apis/users/dto/verify-email-dto';
 import { AuthService } from '../services/auth.service';
 import { JwtRefreshTokenGuard } from '../jwt/guards/jwt-refresh-token.guard';
 import { CommandBus } from '@nestjs/cqrs';
+import { VerifyEmailCommand } from 'src/apis/auth/commands/verify-email.command';
 
 @Controller('auth')
 export class AuthController {
@@ -36,6 +37,6 @@ export class AuthController {
   verifyEmail(
     @Query() verifyEmailDto: VerifyEmailDto,
   ): Promise<{ accessToken: string; refreshToken: string }> {
-    return this.authService.verifyEmail(verifyEmailDto);
+    return this.commandBus.execute(new VerifyEmailCommand(verifyEmailDto));
   }
 }
