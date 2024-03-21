@@ -8,6 +8,7 @@ import { JwtRefreshTokenStrategy } from './jwt/strategies/jwt-refresh-token.stra
 import { JwtModule } from '@nestjs/jwt';
 import { JwtModuleOptionsFactory } from './jwt/jwt-module-options.factory';
 import { CqrsModule } from '@nestjs/cqrs';
+import { VerifyEmailHandler } from 'src/apis/auth/handlers/verify-email.handler';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { CqrsModule } from '@nestjs/cqrs';
     JwtAccessTokenStrategy,
     JwtRefreshTokenStrategy,
     JwtModuleOptionsFactory,
+    VerifyEmailHandler,
   ],
   exports: [AuthService],
 })
