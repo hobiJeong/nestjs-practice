@@ -19,10 +19,10 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
+import { CreateUserDto } from '../interface/dto/create-user.dto';
+import { UpdateUserDto } from '../interface/dto/update-user.dto';
 import { config } from 'dotenv';
-import { UserDto } from '../dto/user.dto';
+import { UserDto } from '../interface/dto/user.dto';
 import { JwtAccessTokenGuard } from 'src/apis/auth/jwt/guards/jwt-access-token.guard';
 import { User } from 'src/common/decorators/user.decorator';
 import { Roles } from '../decorators/roles.decorator';
@@ -36,8 +36,8 @@ import { Logger as WinstonLogger } from 'winston';
 import { CustomLogger } from 'src/middlewares/custom-logger.middleware';
 import { ParsePositiveIntPipe } from 'src/common/validation-pipe/parse-positive-int.pipe';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { CreateUserCommand } from 'src/apis/users/commands/create-user.command';
-import { GetUserQuery } from 'src/apis/users/queries/get-user.query';
+import { CreateUserCommand } from 'src/apis/users/applications/commands/create-user.command';
+import { GetUserQuery } from 'src/apis/users/applications/queries/get-user.query';
 
 config();
 

@@ -11,8 +11,8 @@ interface EmailOptions {
 }
 
 @Injectable()
-export class EmailService {
-  private transporter: Mail;
+export class ExternalEmailService {
+  private readonly transporter: Mail;
 
   constructor(
     @Inject(emailConfig.KEY)

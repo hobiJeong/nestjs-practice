@@ -1,8 +1,9 @@
 import { Module } from '@nestjs/common';
-import { EmailService } from './services/email.service';
+import { ExternalEmailService } from './services/external-email.service';
+import { EXTERNAL_EMAIL_SERVICE_TOKEN } from 'src/apis/email/constants/external-email-service.token';
 
 @Module({
-  providers: [EmailService],
-  exports: [EmailService],
+  providers: [ExternalEmailService],
+  exports: [ExternalEmailService],
 })
 export class EmailModule {}

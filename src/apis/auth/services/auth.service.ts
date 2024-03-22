@@ -3,8 +3,8 @@ import { ConfigType } from '@nestjs/config';
 import { UsersService } from 'src/apis/users/services/users.service';
 import authConfig from 'src/core/config/auth.config';
 import { Payload } from '../types/auth.type';
-import { UserLoginDto } from 'src/apis/users/dto/user-login-dto';
-import { VerifyEmailDto } from 'src/apis/users/dto/verify-email-dto';
+import { UserLoginDto } from 'src/apis/users/interface/dto/user-login-dto';
+import { VerifyEmailDto } from 'src/apis/users/interface/dto/verify-email-dto';
 import { JwtService } from '@nestjs/jwt';
 import { UserStatus } from 'src/apis/users/constants/user-status.enum';
 

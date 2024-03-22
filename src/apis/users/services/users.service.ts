@@ -1,20 +1,17 @@
 import { Injectable, ConflictException } from '@nestjs/common';
-import { CreateUserDto } from '../dto/create-user.dto';
-import { UpdateUserDto } from '../dto/update-user.dto';
+import { CreateUserDto } from '../interface/dto/create-user.dto';
+import { UpdateUserDto } from '../interface/dto/update-user.dto';
 import * as uuid from 'uuid';
-import { EmailService } from 'src/apis/email/services/email.service';
-import { UserRepository } from '../repository/user.repository';
+import { UserRepository } from '../infra/db/repository/user.repository';
 import { DataSource, FindOneOptions, Repository } from 'typeorm';
-import { UserDto } from '../dto/user.dto';
+import { UserDto } from '../interface/dto/user.dto';
 import { UUID } from 'crypto';
 import { UserStatus } from '../constants/user-status.enum';
-import { User } from 'src/entities/User';
-import { InjectRepository } from '@nestjs/typeorm';
+import { UserEntity } from 'src/apis/users/infra/db/entities/User.entity';
 
 @Injectable()
 export class UsersService {
   constructor(
-    private readonly emailService: EmailService,
     private readonly userRepository: UserRepository,
     private readonly dataSource: DataSource,
   ) {}
@@ -22,23 +19,23 @@ export class UsersService {
   /**
    * 유저 생성
    */
-  async create(createUserDto: CreateUserDto) {
-    const { email } = createUserDto;
+  // async create(createUserDto: CreateUserDto) {
+  //   const { email } = createUserDto;
 
-    const isExistUser = await this.checkUserExists(email);
+  //   const isExistUser = await this.checkUserExists(email);
 
-    // if (isExistUser) {
-    //   throw new ConflictException('An email that already exists.');
-    // }
+  //   // if (isExistUser) {
+  //   //   throw new ConflictException('An email that already exists.');
+  //   // }
 
-    const signupVerifyToken = uuid.v1();
+  //   const signupVerifyToken = uuid.v1();
 
-    await this.saveUser({ ...createUserDto }, signupVerifyToken as UUID);
+  //   await this.saveUser({ ...createUserDto }, signupVerifyToken as UUID);
 
-    await this.sendMemberJoinEmail(email, signupVerifyToken);
+  //   await this.sendMemberJoinEmail(email, signupVerifyToken);
 
-    return;
-  }
+  //   return;
+  // }
 
   async findOneUserBy(myId: number, userId: number): Promise<UserDto> {
     const existUser = await this.userRepository.findOneBy({ id: userId });
@@ -46,7 +43,7 @@ export class UsersService {
     return existUser ? new UserDto(existUser) : null;
   }
 
-  findOne(options: FindOneOptions<User>) {
+  findOne(options: FindOneOptions<UserEntity>) {
     return this.userRepository.findOne(options);
   }
 
@@ -66,12 +63,12 @@ export class UsersService {
     return this.userRepository.save({ ...createUserDto, signupVerifyToken });
   }
 
-  private async sendMemberJoinEmail(email: string, signupVerifyToken: string) {
-    await this.emailService.sendMemberJoinVerification(
-      email,
-      signupVerifyToken,
-    );
-  }
+  // private async sendMemberJoinEmail(email: string, signupVerifyToken: string) {
+  //   await this.emailService.sendMemberJoinVerification(
+  //     email,
+  //     signupVerifyToken,
+  //   );
+  // }
 
   findAll() {
     return `This action returns all users`;

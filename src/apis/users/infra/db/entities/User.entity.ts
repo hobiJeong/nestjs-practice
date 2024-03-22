@@ -5,7 +5,7 @@ import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
 
 @Index('UQ_e12875dfb3b1d92d7d7c5377e22', ['email'], { unique: true })
 @Entity('user', { schema: 'nestjs_practice_db' })
-export class User {
+export class UserEntity {
   @PrimaryGeneratedColumn({
     type: 'int',
     name: 'id',

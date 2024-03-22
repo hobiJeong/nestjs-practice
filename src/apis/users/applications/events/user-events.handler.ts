@@ -1,11 +1,14 @@
+import { Inject } from '@nestjs/common';
 import { EventsHandler, IEventHandler } from '@nestjs/cqrs';
-import { EmailService } from 'src/apis/email/services/email.service';
-import { TestEvent } from 'src/apis/users/events/test.event';
-import { UserCreatedEvent } from 'src/apis/users/events/user-created.event';
+import { IEmailService } from 'src/apis/users/applications/adapter/iemail.service';
+import { UserCreatedEvent } from 'src/apis/users/domain/user-created.event';
+import { EmailService } from 'src/apis/users/infra/adapter/email.service';
 
-@EventsHandler(UserCreatedEvent, TestEvent)
+@EventsHandler(UserCreatedEvent)
 export class UserEventsHandler implements IEventHandler<UserCreatedEvent> {
-  constructor(private readonly emailService: EmailService) {}
+  constructor(
+    @Inject(EmailService) private readonly emailService: IEmailService,
+  ) {}
 
   async handle(event: UserCreatedEvent) {
     console.log('test');
@@ -22,10 +25,7 @@ export class UserEventsHandler implements IEventHandler<UserCreatedEvent> {
         );
         break;
       }
-      case TestEvent.name: {
-        console.log('TestEvent!');
-        break;
-      }
+
       default:
         break;
     }

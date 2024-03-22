@@ -1,8 +1,8 @@
 import { NotFoundException } from '@nestjs/common';
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { UserDto } from 'src/apis/users/dto/user.dto';
-import { GetUserQuery } from 'src/apis/users/queries/get-user.query';
-import { UserRepository } from 'src/apis/users/repository/user.repository';
+import { UserDto } from 'src/apis/users/interface/dto/user.dto';
+import { GetUserQuery } from 'src/apis/users/applications/queries/get-user.query';
+import { UserRepository } from 'src/apis/users/infra/db/repository/user.repository';
 
 @QueryHandler(GetUserQuery)
 export class GetUserQueryHandler implements IQueryHandler<GetUserQuery> {
