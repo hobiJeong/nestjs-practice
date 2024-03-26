@@ -5,7 +5,6 @@ import { UserRole } from 'src/apis/users/constants/user-role.enum';
 import { UserStatus } from 'src/apis/users/constants/user-status.enum';
 import { User } from './user';
 import { UserFactory } from './user.factory';
-import uuid from 'uuid';
 
 describe(UserFactory.name, () => {
   let userFactory: UserFactory;
@@ -23,11 +22,9 @@ describe(UserFactory.name, () => {
     eventBus = module.get(EventBus);
   });
 
-  describe(userFactory.create.name, () => {
+  describe(UserFactory.prototype.create.name, () => {
     it('should create user', () => {
       // Given
-      const token = uuid.v1() as UUID;
-      const inactive = 'inactive';
 
       // When
       const user = userFactory.create(
@@ -35,9 +32,9 @@ describe(UserFactory.name, () => {
         '정비호',
         'test@test.test',
         'testPassword',
-        token,
-        'inactive' as UserStatus.Inactive,
-        'user' as UserRole.User,
+        '0000-0000-0000-0000' as UUID,
+        UserStatus.Inactive,
+        UserRole.User,
       );
       // Then
       const expected = new User(
@@ -45,9 +42,9 @@ describe(UserFactory.name, () => {
         '정비호',
         'test@test.test',
         'testPassword',
-        token,
-        'inactive' as UserStatus.Inactive,
-        'user' as UserRole.User,
+        '0000-0000-0000-0000' as UUID,
+        UserStatus.Inactive,
+        UserRole.User,
       );
 
       expect(expected).toEqual(user);
@@ -58,17 +55,16 @@ describe(UserFactory.name, () => {
   describe('reconstitute', () => {
     it('should reconstitute user', () => {
       // Given
-      const token = uuid.v1() as UUID;
 
       // When
       const user = userFactory.reconstitute(
         1,
         '정비호',
         'test@test.test',
-        token,
+        '0000-0000-0000-0000' as UUID,
         'testPassword',
-        'active' as UserStatus.Active,
-        'user' as UserRole.User,
+        UserStatus.Active,
+        UserRole.User,
       );
 
       // Then
@@ -77,9 +73,9 @@ describe(UserFactory.name, () => {
         '정비호',
         'test@test.test',
         'testPassword',
-        token,
-        'active' as UserStatus.Active,
-        'user' as UserRole.User,
+        '0000-0000-0000-0000' as UUID,
+        UserStatus.Active,
+        UserRole.User,
       );
 
       expect(expected).toEqual(user);
